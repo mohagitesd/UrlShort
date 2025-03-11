@@ -5,7 +5,7 @@ namespace App\DTO;
 use DateTimeInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CreateShortLinkDTO
+class ShortLinkDTO
 {
     public function __construct(
         #[Assert\Url]
