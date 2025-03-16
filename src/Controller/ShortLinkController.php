@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\DTO\ShortLinkDTO;
+use App\Entity\ShortLink;
 use App\Service\ShortLinkService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
@@ -43,5 +45,30 @@ final class ShortLinkController extends AbstractController
         $entityManager->flush();
     
         return $this->json($shortLink);*/
+    }
+    #[Route('/short-links/{id}', methods: ['DELETE'], name: 'delete_short_link')]
+    public function delete(
+        ShortLink $shortLink,
+        ShortLinkService $shortLinkService,
+        EntityManagerInterface $entityManager
+    ): Response
+    {
+        $shortLinkService->deleteShortLink($shortLink);
+        return $this->json(null, Response::HTTP_NO_CONTENT);
+    }
+    #[Route('/short-links/{id}', methods: ['GET'], name: 'get_short_link')]
+    public function get(
+        ShortLink $shortLink,
+    ): Response
+    {
+        return $this->json($shortLink);
+    }
+    #[Route('/short-links', methods: ['GET'], name: 'get_short_links')]
+    public function list(
+        ShortLinkRepository $shortLinkRepository,
+    ): Response
+    {
+        $shortLinks = $shortLinkRepository->findAll();
+        return $this->json($shortLinks);
     }
 }

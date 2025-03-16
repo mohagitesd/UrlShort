@@ -53,5 +53,7 @@ final class AuthController extends AbstractController
             // the label displayed for the remember me checkbox (the |trans filter is applied to it)
             'remember_me_label' => 'Remember me',
         ]);
+        
     }
+    
 }

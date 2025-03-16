@@ -32,4 +32,5 @@ class ShortLinkDTO
         ])]
         public array $tags = [],
     ) {}
+
 }
