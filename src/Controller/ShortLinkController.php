@@ -15,7 +15,7 @@ final class ShortLinkController extends AbstractController
 {
     #[Route('/short-links', methods: ['POST'], name: 'create_short_link')]
     public function create(
-        #[MapRequestPayload]
+        #[MapRequestPayload] 
         ShortLinkDTO $dto,
         ShortLinkService $shortLinkService,
     ): Response
