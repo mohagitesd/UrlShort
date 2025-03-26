@@ -41,10 +41,10 @@ class Tag
         return $this->color;
     }
 
-    public function setColor(string $color): static
+        public function setColor(?string $color): self
     {
         $this->color = $color;
-
         return $this;
     }
+
 }

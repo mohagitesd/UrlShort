@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250303121449 extends AbstractMigration
+final class Version20250326095520 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,16 +20,13 @@ final class Version20250303121449 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE "user" (id UUID NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, display_name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL ON "user" (email)');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_IDENTIFIER_DISPLAY_NAME ON "user" (display_name)');
-        $this->addSql('COMMENT ON COLUMN "user".id IS \'(DC2Type:uuid)\'');
+        $this->addSql('ALTER TABLE tag ALTER name SET NOT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');
-        $this->addSql('DROP TABLE "user"');
+        $this->addSql('ALTER TABLE tag ALTER name DROP NOT NULL');
     }
 }

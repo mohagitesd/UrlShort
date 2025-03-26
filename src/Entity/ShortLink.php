@@ -23,6 +23,10 @@ class ShortLink
     #[ORM\Column(type: Types::TEXT)]
     private ?string $url = null;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $title = null;
+
+
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -60,6 +64,17 @@ class ShortLink
     {
         $this->shortCode = $shortCode;
 
+        return $this;
+    }
+    
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
         return $this;
     }
 

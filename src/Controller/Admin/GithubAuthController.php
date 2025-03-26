@@ -6,8 +6,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 class GithubAuthController extends AbstractController
 {
@@ -40,10 +42,40 @@ class GithubAuthController extends AbstractController
             ],
         ])->toArray()['access_token'];
 
-       $user = $httpClient->request('GET', 'https://api.github.com/user', [
+       $userData = $httpClient->request('GET', 'https://api.github.com/user', [
             'headers' => [ 'Authorization' => 'Bearer '.$token],
         ])->toArray();
 
-        dd($user);
+        dd($userData);
+
+        // Make sure that the user exists in the database.
+        $user = $userRepository->findOneBy(['email' => $userData['email']]);
+        if (!$user) {
+            throw new UnauthorizedHttpException('User does not exist.');
+            // Maybe we could create a user with no password if it doesn't exist ?
+        }
+        // Create a custom JWT with the user's data
+        $jwt = $jwtManager->createFromPayload($user, [
+            'avatar_url' => $userData['avatar_url'],
+ 
+
+            'company' => $userData['company'],
+ 
+
+            'location' => $userData['location'],
+ 
+
+        ]);
+ 
+
+
+ 
+
+        return $this->json(['token' => $jwt]);
+ 
+
     }
+ 
+
 }
+  
