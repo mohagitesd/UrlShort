@@ -40,7 +40,7 @@ security:
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
         api:
-            pattern: ^/
+            pattern: ^/api
             stateless: true
             jwt: ~
 
@@ -50,7 +50,9 @@ security:
         # Be careful with the order. The first rule that matches will be used.
         - { path: ^/auth/github, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

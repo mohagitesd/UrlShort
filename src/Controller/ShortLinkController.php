@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
+#[Route('/api')]
 final class ShortLinkController extends AbstractController
 {
     #[Route('/short-links', methods: ['POST'], name: 'create_short_link')]
@@ -67,25 +68,7 @@ final class ShortLinkController extends AbstractController
         return $this->json($shortLink);
     }
 
-    #[Route('/r/{shortCode}', methods: ['GET'], name: 'redirect_short_link')]
-    public function redirectToUrl(
-        string $shortCode,
-        Request $request,
-        ShortLinkService $shortLinkService,
-    ): Response {
-        $shortLink = $shortLinkService->processVisit(
-            shortCode: $shortCode,
-            ip: $request->getClientIp(),
-            userAgent: $request->headers->get('User-Agent', '')
-        );
-
-        return new RedirectResponse(
-            url: $shortLink->getUrl(),
-            status: Response::HTTP_MOVED_PERMANENTLY,
-            headers: ['Cache-Control' => 'no-store']
-        );
-    }
-
+    
     #[Route('/short-links/{shortCode}', methods: ['DELETE'], name: 'delete_short_link')]
     public function delete(
         string $shortCode,

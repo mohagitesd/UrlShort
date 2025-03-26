@@ -75,6 +75,7 @@ class ShortLinkService
 
         // Mise à jour des tags
         $shortLink->getTags()->clear();
+        dump($dto);
         foreach ($dto->tags as $tagData) {
             if (isset($tagData['id'])) {
                 $tag = $this->tagRepository->find($tagData['id']);
